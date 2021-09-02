@@ -22,7 +22,9 @@ def test_last_changed():
 
 
 def test_special_case():
-    """Testing that sequence with one 1 in the beginning returns correct value"""
+    """Testing that sequence with one 1 in the beginning returns correct
+       value
+    """
     assert check_fibonacci([1, 2, 3, 5, 8, 13, 21, 34, 55, 89])
     assert not check_fibonacci([1, 2, 3, 5, 8, 13, 21, 34, 55, 90])
 

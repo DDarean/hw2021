@@ -4,8 +4,6 @@ Write a function that detects if a number is
  - use map or other utilities from functools library,
  - use anonymous functions (or use function as argument)
  - do not use loops, preferably using list comprehensions
-
-### Example function signature and call
 """
 import math
 

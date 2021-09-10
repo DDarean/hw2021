@@ -2,7 +2,6 @@ import os
 
 import homework2.task1 as hw
 
-
 file_path = os.path.join(os.getcwd(), 'data2.txt')
 
 print(hw.get_longest_diverse_words(os.path.normpath(file_path)))

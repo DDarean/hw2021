@@ -9,15 +9,15 @@ We guarantee, that the given sequence contain >= 0 integers inside.
 from typing import Sequence
 
 
-def fibonacci(n, result) -> bool:
-    if n == 0 or n == 1:
-        result[n] = n
-        return n
-    if result[n] != -1:
-        return result[n]
-    else:
-        result[n] = (fibonacci(n - 2, result) + fibonacci(n - 1, result))
-        return result[n]
+def fibonacci_generator(n=100000):
+    n_first = 0
+    n_last = 1
+    for i in range(n-2):
+        if i == 0 or i == 1:
+            yield i
+        result = n_first + n_last
+        yield result
+        n_first, n_last = n_last, result
 
 
 def check_fibonacci(data: Sequence[int]) -> bool:
@@ -29,22 +29,21 @@ def check_fibonacci(data: Sequence[int]) -> bool:
     elif data != sorted_sequence:
         return False
     else:
-        # Calculate first n Fibonacci numbers
-        n = 100
-        fibonacci_sequence = [-1] * n
-        for i in range(0, n):
-            fibonacci(i, fibonacci_sequence)
-        # Check if single number is in Fibonacci sequence
-        if len(data) == 1:
-            return data[0] in fibonacci_sequence
+        # Calculate Fibonacci generator
+        gen = fibonacci_generator()
+        number = next(gen)
+        # Searching first element of array if Fibonacci sequence
+        while data[0] != number:
+            if number > data[0]:
+                return False
+            number = next(gen)
         # Separate check for case with one 1 in the beginning [1, 2, 3, 5...]
         if data[0] == 1 and data[1] == 2:
-            sequence_index = 2
-        else:
-            sequence_index = fibonacci_sequence.index(data[0])
-        for i in range(len(data)):
-            if fibonacci_sequence[sequence_index + i] == data[i]:
-                continue
-            else:
+            number = next(gen)
+        # Element-wise comparison
+        for i in data:
+            if i != number:
                 return False
+            else:
+                number = next(gen)
         return True

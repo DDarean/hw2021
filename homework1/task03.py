@@ -20,10 +20,7 @@ def find_maximum_and_minimum(file_name: str) -> Tuple[int, int]:
     minimum = 0
     maximum = 0
     with open(file_name) as f:
-        while True:
-            line = f.readline()
-            if not line:
-                break
+        for line in f:
             if int(line) < minimum:
                 minimum = int(line)
             elif int(line) > maximum:

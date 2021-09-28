@@ -6,6 +6,11 @@ def test_actual_sequence():
     assert check_fibonacci([0, 1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89])
 
 
+def test_actual_sequence_from_middle():
+    """Testing that actual sequence returns True"""
+    assert check_fibonacci([8, 13, 21, 34, 55, 89])
+
+
 def test_negative_number():
     """Testing that sequence with negative number returns False"""
     assert not check_fibonacci([0, 1, 1, 2, 3, 5, 8, 13, 21, 34, -55, 89])

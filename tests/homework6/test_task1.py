@@ -1,7 +1,6 @@
 import pytest
 
-from homework6.task1 import (DeadlineError, HomeworkResult, Student,
-                             Teacher)
+from homework6.task1 import DeadlineError, HomeworkResult, Student, Teacher
 
 
 def test_homework_result_incorrect_input():

@@ -5,19 +5,6 @@ If there is "x" winner, function should return "x wins!"
 If there is "o" winner, function should return "o wins!"
 If there is a draw, function should return "draw!"
 If board is unfinished, function should return "unfinished!"
-
-Example:
-    [[-, -, o],
-     [-, x, o],
-     [x, o, x]]
-    Return value should be "unfinished"
-
-    [[-, -, o],
-     [-, o, o],
-     [x, x, x]]
-
-     Return value should be "x wins!"
-
 """
 from typing import List
 
@@ -40,11 +27,10 @@ def tic_tac_toe_checker(board: List[List]) -> str:
 
     for var in win_variants:
         if sum(var) == 3:
-            return 'o'
+            return 'o wins!'
         elif sum(var) == 15:
-            return 'x'
-        else:
-            if unfinished_flag:
-                return 'unfinished'
-            else:
-                return 'draw'
+            return 'x wins!'
+    if unfinished_flag:
+        return 'unfinished'
+    else:
+        return 'draw'

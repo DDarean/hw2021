@@ -23,15 +23,11 @@ from typing import Callable
 
 def cache(func: Callable) -> Callable:
     cache_storage = {}
-    from_cache_flag = 0  # for tests
 
     def calculate(*args):
-        nonlocal from_cache_flag
         if args in cache_storage:
-            from_cache_flag = 1
-            return cache_storage[args], from_cache_flag
+            return cache_storage[args]
         else:
-            from_cache_flag = 0
             cache_storage[args] = func(*args)
-            return func(*args), from_cache_flag
+            return func(*args)
     return calculate

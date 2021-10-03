@@ -30,7 +30,7 @@ def get_longest_diverse_words(file_path: str) -> List[str]:
                 if len(word) > min_length:
                     min_length = len(word)
                     counter[word] = len(word)
-        return sorted(counter, key=counter.get, reverse=True)[0:10]
+        return sorted(counter, key=counter.get, reverse=True)[0:3]
 
 
 def get_rarest_char(file_path: str):

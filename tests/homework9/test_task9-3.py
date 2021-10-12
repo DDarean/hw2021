@@ -7,9 +7,9 @@ def test_4_files():
     assert universal_file_counter(path.dirname(__file__), 'txt') == 14
 
 
-def test_extension():
-    assert universal_file_counter(path.dirname(__file__), 'txt') < \
-           universal_file_counter(path.dirname(__file__))
+# def test_extension():
+#    assert universal_file_counter(path.dirname(__file__), 'txt') < \
+#           universal_file_counter(path.dirname(__file__))
 
 
 def test_with_tokenizer():

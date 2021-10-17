@@ -1,6 +1,5 @@
-import tempfile
-
 import os
+import tempfile
 
 import pytest
 

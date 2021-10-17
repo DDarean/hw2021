@@ -1,5 +1,7 @@
 import tempfile
 
+import os
+
 import pytest
 
 from homework8.task1 import KVStorageClass
@@ -11,6 +13,8 @@ def test_iterable_name():
         fp.seek(0)
         storage = KVStorageClass(fp.name)
         assert storage['name'] == 'kek'
+        fp.close()
+        os.unlink(fp.name)
 
 
 def test_iterable_attr():
@@ -19,6 +23,8 @@ def test_iterable_attr():
         fp.seek(0)
         storage = KVStorageClass(fp.name)
         assert storage.last_name == 'top'
+        fp.close()
+        os.unlink(fp.name)
 
 
 def test_if_int():
@@ -27,6 +33,8 @@ def test_if_int():
         fp.seek(0)
         storage = KVStorageClass(fp.name)
         assert isinstance(storage.power, int)
+        fp.close()
+        os.unlink(fp.name)
 
 
 def test_value_error():
@@ -35,3 +43,5 @@ def test_value_error():
         fp.seek(0)
         with pytest.raises(ValueError):
             KVStorageClass(fp.name)
+        fp.close()
+        os.unlink(fp.name)

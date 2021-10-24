@@ -21,12 +21,12 @@ Definition of done:
 
 
 def read_magic_number(path: str) -> bool:
-    with open(path) as file:
+    with open(path, 'r') as file:
         try:
-            line = file.readline()
-            if 1 <= int(line) < 3:
-                return True
-            else:
-                return False
-        except ValueError:
+            line = int(file.readline())
+        except (ValueError, FileNotFoundError):
             raise ValueError
+        if 1 <= line < 3:
+            return True
+        else:
+            return False

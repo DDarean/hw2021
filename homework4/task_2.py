@@ -27,16 +27,17 @@ You will learn:
 * https://docs.python.org/3/library/urllib.request.html#urllib.request.urlopen
 """
 
+from urllib.error import URLError
 from urllib.request import urlopen
 
 
 def request_url(url: str):
     try:
         f = urlopen(url)
-        html = f.read()
-        return str(html)
-    except ValueError:
+    except URLError:
         raise ValueError(f'Incorrect URL: {url}')
+    html = f.read()
+    return str(html)
 
 
 def count_dots_on_i(url: str) -> int:

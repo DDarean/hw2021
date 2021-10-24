@@ -21,7 +21,7 @@ class SimplifiedEnum(type):
     def __new__(mcs, name, bases, attr):
         new_instance = super().__new__(mcs, name, bases, attr)
         for attr_name, value in attr.items():
-            if attr_name.startswith(f'_{name}'):
+            if attr_name.startswith(f'_{name}__keys'):
                 try:
                     for attribute in value:
                         setattr(new_instance, attribute, attribute)

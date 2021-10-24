@@ -13,4 +13,4 @@ def test_attributes():
 def test_attributes_wrong_type():
     with pytest.raises(TypeError):
         class SizesEnum(metaclass=SimplifiedEnum):
-            __a = [0]
+            __keys = [0]

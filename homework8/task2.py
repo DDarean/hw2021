@@ -3,11 +3,10 @@ import sqlite3
 
 def connect_to_database(f):
     def wrap(self, *args):
-        # self = args[0]
-        con = sqlite3.connect(self.database_name)
-        cur = con.cursor()
-        connected = f(self, cur, *args)
-        return connected
+        with sqlite3.connect(self.database_name) as con:
+            cur = con.cursor()
+            connected = f(self, cur, *args)
+            return connected
     return wrap
 
 

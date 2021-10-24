@@ -1,4 +1,5 @@
 import asyncio
+import json
 import re
 
 import aiohttp
@@ -31,11 +32,18 @@ async def get_companies_list_page(num=1):
 
 async def get_all_companies():
     companies_list = [await get_companies_list_page(page_num)
-                      for page_num in range(1, 2)]
+                      for page_num in range(1, 12)]
     return [company for item in companies_list for company in item]
 
 
-async def get_company_data(company):
+async def get_exchange_rate(url='https://www.cbr.ru/scripts/XML_daily.asp?'):
+    soup = await get_page_content(url)
+    soup = Bs(soup, 'html.parser')
+    rate = soup.find('valute', {'id': "R01235"}).value.text.replace(',', '.')
+    return float(rate)
+
+
+async def get_company_data(company, ex_rate=1.0):
     name = company[0]
     link = company[1]
     growth = company[2]
@@ -47,6 +55,7 @@ async def get_company_data(company):
     current_price = soup.find('span',
                               {'class': 'price-section__current-value'})
     current_price = float(current_price.text.replace(',', ''))
+    rub_price = round(current_price * ex_rate, 2)
 
     # Company code
     code = soup.find('span',
@@ -74,52 +83,36 @@ async def get_company_data(company):
     except AttributeError:
         high = 0
 
-    return [name, current_price, code, pe_ratio, low, high, growth]
-
-
-async def get_exchange_rate(url):
-    soup = await get_page_content(url)
-    soup = Bs(soup, 'html.parser')
-    rate = soup.find('valute', {'id': "R01235"}).value.text.replace(',', '.')
-    return float(rate)
+    summary = dict()
+    summary['name'] = name
+    summary['price'] = rub_price
+    summary['code'] = code
+    summary['PE_ratio'] = pe_ratio
+    summary['annual_range'] = round((high - low) * ex_rate, 2)
+    summary['growth'] = growth
+    return summary
 
 
 async def event_loop():
     result = []
+    exchange_rate = await get_exchange_rate()
     for company in await get_all_companies():
-        result.append(await get_company_data(company))
-    rate = await get_exchange_rate('https://www.cbr.ru/scripts/XML_daily.asp?')
-    return result, rate
+        result.append(await get_company_data(company, exchange_rate))
+    return result
 
 
-def find_top(rating_type, *args):
-    """
-    Returns top-10 companies according to requested rating
-    :param rating_type:
-    :param args:
-        param1 (str): company name
-        param2 (float): current price
-        param3 (str): code
-        param4 (float): P/E ratio
-        param5 (float): 52 weeks low
-        param6 (float): 52 weeks high
-        param7 (float): Annual growth rate
-
-    :return: top-10 rating
-    """
-    pass
+def find_top_10(companies_list, rating_type):
+    return sorted(companies_list, key=lambda x: x[rating_type],
+                  reverse=True)[:10]
 
 
-"""
-loop = asyncio.get_event_loop()
-work_list = loop.run_until_complete(event_l())
-loop.close()
+def save_file(top_list, rating):
+    with open(f'{rating}.json', 'w') as f:
+        json.dump(top_list, f)
 
-"<Valute ID="R01235">"
-"http://www.cbr.ru/scripts/XML_daily.asp?date_req=02/03/2002"
-"""
 
 if __name__ == '__main__':
-    companies, ex_rate = asyncio.run(event_loop())
-    for c in companies:
-        pass
+    companies = asyncio.run(event_loop())
+    ratings = ['price', 'PE_ratio', 'annual_range', 'growth']
+    for r in ratings:
+        save_file(find_top_10(companies, r), r)

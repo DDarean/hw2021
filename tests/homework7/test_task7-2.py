@@ -23,3 +23,9 @@ def test_negative():
     s = 'a#c'
     t = 'b'
     assert not backspace_compare(s, t)
+
+
+def test_double_backspace():
+    s = 'hellow##'
+    t = 'hello#'
+    assert backspace_compare(s, t)

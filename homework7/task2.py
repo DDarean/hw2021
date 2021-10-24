@@ -9,6 +9,9 @@ import re
 
 
 def backspace_compare(first: str, second: str):
-    pattern = r'.{0,1}#+'
-    return re.sub(pattern, '', first.lower()) == \
-        re.sub(pattern, '', second.lower())
+    pattern = r'.{1}#{1}'
+    while re.findall(pattern, first.lower()):
+        first = re.sub(pattern, '', first.lower())
+    while re.findall(pattern, second.lower()):
+        second = re.sub(pattern, '', second.lower())
+    return first == second

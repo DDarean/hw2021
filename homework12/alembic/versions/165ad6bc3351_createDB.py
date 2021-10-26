@@ -22,7 +22,7 @@ def upgrade():
                     sa.Column('id', sa.Integer(), nullable=False),
                     sa.Column('text', sa.String(length=50), nullable=False),
                     sa.Column('created', sa.DateTime(), nullable=True),
-                    sa.Column('deadline', sa.Interval(), nullable=True),
+                    sa.Column('deadline', sa.DateTime(), nullable=True),
                     sa.PrimaryKeyConstraint('id')
                     )
     op.create_table('students',
@@ -44,8 +44,6 @@ def upgrade():
     op.create_table('solutions',
                     sa.Column('id', sa.Integer(), nullable=False),
                     sa.Column('homework', sa.Integer(), nullable=True),
-                    sa.Column('solution', sa.String(length=100),
-                              nullable=False),
                     sa.Column('author', sa.Integer(), nullable=True),
                     sa.Column('created', sa.DateTime(), nullable=True),
                     sa.ForeignKeyConstraint(['author'], ['students.id'], ),

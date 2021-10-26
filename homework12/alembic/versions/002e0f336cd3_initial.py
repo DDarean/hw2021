@@ -1,7 +1,7 @@
 """add
 
 Revision ID: 002e0f336cd3
-Revises: 
+Revises:
 Create Date: 2021-10-26 01:03:37.674067
 
 """

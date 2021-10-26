@@ -3,7 +3,7 @@ from sqlalchemy import (Column, DateTime, ForeignKey, Integer, Interval,
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship
 
-engine = create_engine('sqlite:///tutorial.db')
+engine = create_engine('sqlite:///origin.db')
 
 Base = declarative_base()
 
@@ -21,7 +21,6 @@ class Teacher(Base):
     id = Column(Integer(), primary_key=True)
     last_name = Column(String(50), nullable=False)
     first_name = Column(String(50), nullable=False)
-    homeworks = relationship('Homework')
 
 
 class Homework(Base):
@@ -29,14 +28,13 @@ class Homework(Base):
     id = Column(Integer(), primary_key=True)
     text = Column(String(50), nullable=False)
     created = Column(DateTime())
-    deadline = Column(Interval())
+    deadline = Column(DateTime())
 
 
 class HomeworkResult(Base):
     __tablename__ = 'solutions'
     id = Column(Integer(), primary_key=True)
     homework = Column(Integer, ForeignKey('homeworks.id'))
-    solution = Column(String(100), nullable=False)
     author = Column(Integer, ForeignKey('students.id'))
     created = Column(DateTime())
 

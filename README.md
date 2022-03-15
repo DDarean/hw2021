@@ -1,5 +1,5 @@
 ## Python course
-# Content
+### Content
 <ul>
   <li> Data Structures and Functions
   <li> Functional programming
